@@ -1,0 +1,42 @@
+{% import _self as shapes %}
+
+{% set radius = 100 %}
+{% set viewWidth = radius * 1.82 %}
+{% set viewHeight = radius * 1.1 %}
+{% set current = 0 %}
+
+<svg class="pie" width="{{ 3 * viewWidth }}" height="{{ 3 * viewHeight }}"  viewBox="-{{ viewWidth }} -{{ viewHeight }} {{ viewWidth * 2 }} {{ viewHeight * 2 }}" xmlns="http://www.w3.org/2000/svg">
+  {% if style is defined %}
+  <style type="text/css">
+    {{ style|e('html') }}
+  </style>
+  {% endif %}
+  {% for label, value in data %}
+    {% set angle = rad(value) %}
+    {{ shapes.label(current + angle / 2, radius, label|trans ~ ' : ' ~ value|percentage(1)) }}
+    {{ shapes.portion(current, angle, radius) }}
+    {% set current = current + angle %}
+  {% endfor %}
+</svg>
+
+{% macro portion(from, angle, radius, color) %}
+  {% set start = angle_to_point(from, radius) %}
+  {% set end = angle_to_point(from + angle, radius) %}
+  <path
+    class="portion"
+    d="M0,0
+    L{{ start.x }},{{ start.y }}
+    A{{ radius }},{{ radius }} 1 {{ angle > pi() ? 1 : 0 }},1 {{ end.x }},{{ end.y }}
+    Z"
+  />
+{% endmacro %}
+
+{% macro label(angle, radius, value, distance = 1.8, margin = 12) %}
+  {% set origin = angle_to_point(angle, radius) %}
+  {% set left = angle > pi() * 0.5 and angle < pi() * 1.5 %}
+  {% set endX = (left ? - 1 : 1) * radius * distance %}
+  <line class="label-line" x1="{{ origin.x }}" y1="{{ origin.y }}" x2="{{ endX }}" y2="{{ origin.y }}" />
+  <text class="label" x="{{ endX + (left ? 0 : - margin / 2 * value|length) }}" y="{{ origin.y + margin }}">
+    {{ value }}
+  </text>
+{% endmacro %}

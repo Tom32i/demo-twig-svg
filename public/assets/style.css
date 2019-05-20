@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Mono&display=swap');
+@import url('https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css');
+@import url('https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css');
+
+body {
+  background: #EEE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2em 0;
+  font-family: 'Ubuntu', monospace;
+}
+
+h2 {
+  margin-top: 1em;
+}
+
+svg {
+  max-width: 100%;
+}
+
+svg text {
+  font-family: 'Ubuntu Mono', monospace;
+}
+
+/* PIE */
+
+svg.pie .portion {
+  transition: transform 200ms ease-in-out;
+}
+
+svg.pie .portion:hover {
+  transform: scale(1.05);
+}
+
+svg.pie .portion:nth-of-type(5n+1) { fill: #FFCDB2; }
+svg.pie .portion:nth-of-type(5n+2) { fill: #FFB4A2; }
+svg.pie .portion:nth-of-type(5n+3) { fill: #E5989B; }
+svg.pie .portion:nth-of-type(5n+4) { fill: #B5838D; }
+svg.pie .portion:nth-of-type(5n+0) { fill: #6D6875; }
+
+svg.pie .label {
+  font-size: 12px;
+  fill: #666666;
+}
+svg.pie .label-line {
+  stroke: lightgrey;
+}
+
+/* TIME*/
+
+svg.time .bar {
+  fill: #B5838D;
+}
+svg.time .axe {
+  stroke: #6D6875;
+  stroke-width: 0.6;
+}
+
+svg.time .legend {
+  font-size: 16px;
+  fill: #6D6875;
+}
+svg.time .percent {
+  fill: white;
+}
+svg.time .label {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  fill: white;
+  line-height: 14px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+svg.time .label-box {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  fill: #6D6875;
+}
+svg.time g:hover .label,
+svg.time g:hover .label-box  {
+  opacity: 1;
+}
+
+@media print {
+  @page {
+    size: auto;   /* auto is the initial value */
+    margin: 1em;  /* this affects the margin in the printer settings */
+  }
+
+  body {
+    background: transparent;
+    display: block;
+    padding: 0;
+  }
+
+  svg.time .label,
+  svg.time .label-box {
+    opacity: 1;
+  }
+}

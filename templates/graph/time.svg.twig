@@ -1,0 +1,78 @@
+{% import _self as shapes %}
+
+{% set viewWidth = 1000 %}
+{% set viewHeight = 200 %}
+{% set hMargin = 0.0 %}
+{% set vMargin = 0.2 %}
+{% set dataWidth = 0.55 %}
+{% set max = max(data) %}
+{% set length = data|length %}
+{% set columnWidth = viewWidth / length %}
+
+<svg
+  class="time"
+  width="{{ viewWidth * (1 + hMargin + hMargin) }}"
+  height="{{ viewHeight * (1 + vMargin + vMargin) }}"
+  viewBox="-{{ viewWidth * hMargin }} -{{ viewHeight * (1 + vMargin) }} {{ viewWidth * (1 + hMargin + hMargin) }} {{ viewHeight * (1 + vMargin + vMargin) }}"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  {% if style is defined %}
+  <style type="text/css">
+    {{ style|e('html') }}
+  </style>
+  {% endif %}
+  {{ shapes.hLine(0, hMargin) }}
+  {% for date, value in data %}
+    {% set x = (loop.index0 + 0.5) * columnWidth %}
+    {% if value > 0 %}
+      {% set height = value / max * viewHeight %}
+      <g>
+        {{ shapes.bar(x, columnWidth * dataWidth, height)  }}
+        {{ shapes.label(x, height, value ~ ' kg') }}
+      </g>
+    {% endif %}
+    {{ shapes.legend(date|month('short')|upper, x, 20)  }}
+  {% endfor %}
+</svg>
+
+{% macro bar(x, width, height, class = 'bar') %}
+  <rect class="{{ class }}" x="{{ x - width / 2 }}" y="{{ - height }}" width="{{ width }}" height="{{ height }}" />
+{% endmacro %}
+
+{% macro label(x, height, value, margin = 10, padding = 8, arrow = 5) %}
+  {% set width = value|length * 8.5 %}
+  {% set left = x - width / 2 - padding %}
+  {% set right = x + width / 2 + padding %}
+  {% set bottom = - height - margin %}
+  {% set top = bottom - 13 - padding * 2 %}
+  <path  class="label-box" d="M{{ x }} {{ bottom + arrow }}
+    L{{ x - arrow }} {{ bottom }}
+    L{{ left }} {{ bottom }}
+    L{{ left }} {{ top }}
+    L{{ right }} {{ top }}
+    L{{ right }} {{ bottom }}
+    L{{ x + arrow }} {{ bottom }}
+    Z"
+  />
+  <text class="label" x="{{ x }}" y="{{ bottom - padding - 2 }}" text-anchor="middle">
+    {{ value }}
+  </text>
+{% endmacro %}
+
+{% macro innerLabel(value, x, height, class = 'percent', lineHeight = 16, margin = 20) %}
+  {% set small = height <= lineHeight + margin %}
+  {% set y = small ? (lineHeight - height) / 2 : margin - height %}
+  <text class="{{ class }}" x="{{ x }}" y="{{ y }}" dy="{{ small ? - lineHeight / 4 : 0 }}" text-anchor="middle">
+    {{ value }}
+  </text>
+{% endmacro %}
+
+{% macro legend(value, x, y, class = 'legend') %}
+  <text class="{{ class }}" x="{{ x }}" y="{{ y }}" text-anchor="middle">
+    {{ value }}
+  </text>
+{% endmacro %}
+
+{%- macro hLine(y, hMargin, class = 'axe') -%}
+  <line class="{{ class }}" x1="-{{ hMargin * 100 }}%" x2="100%" y1="{{ y }}" y2="{{ y }}" />
+{%- endmacro -%}

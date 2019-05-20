@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="content">
+        <h2>Camembert</h2>
+        <img src="{{ path('graph_pie') }}" />
+
+        <h2>Histogramme</h2>
+        <img src="{{ path('graph_time') }}" />
+    </section>
+{% endblock %}

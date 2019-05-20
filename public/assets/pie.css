@@ -1,0 +1,17 @@
+svg text {
+  font-family: monospace;
+}
+
+svg.pie .portion:nth-of-type(5n+1) { fill: #FFCDB2; }
+svg.pie .portion:nth-of-type(5n+2) { fill: #FFB4A2; }
+svg.pie .portion:nth-of-type(5n+3) { fill: #E5989B; }
+svg.pie .portion:nth-of-type(5n+4) { fill: #B5838D; }
+svg.pie .portion:nth-of-type(5n+0) { fill: #6D6875; }
+
+svg.pie .label {
+  font-size: 12px;
+  fill: #666666;
+}
+svg.pie .label-line {
+  stroke: lightgrey;
+}
