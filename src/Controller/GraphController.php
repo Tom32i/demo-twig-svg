@@ -31,6 +31,30 @@ class GraphController extends AbstractController
         '2018-12-01' => 108,
     ];
 
+    const WEIGHTS = [
+        '1999' => [ 92, 127 ],
+        '2000' => [ 98, 122 ],
+        '2001' => [ 112, 124 ],
+        '2002' => [ 128, 135 ],
+        '2003' => [ 132, 151 ],
+        '2004' => [ 138, 164 ],
+        '2005' => [ 124, 148 ],
+        '2006' => [ 113, 146 ],
+        '2007' => [ 101, 132 ],
+        '2008' => [ 107, 127 ],
+        '2009' => [ 83, 114 ],
+        '2010' => [ 66, 98 ],
+        '2011' => [ 72, 112 ],
+        '2012' => [ 102, 135 ],
+        '2013' => [ 124, 156 ],
+        '2014' => [ 148, 222 ],
+        '2015' => [ 136, 198 ],
+        '2016' => [ 98, 116 ],
+        '2017' => [ 73, 96 ],
+        '2018' => [ 67, 92 ],
+        '2019' => [ 56, 108 ],
+    ];
+
     /**
      * @Route("/", name="graph")
      */
@@ -38,7 +62,11 @@ class GraphController extends AbstractController
     {
         return $this->render('graph.html.twig', [
             'pie' => self::FRUITS,
-            'time' => self::WEIGHT,
+            'histogram' => self::WEIGHT,
+            'courbes' => [
+                array_map('end', self::WEIGHTS),
+                array_map('reset', self::WEIGHTS),
+            ],
         ]);
     }
 }

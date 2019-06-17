@@ -17,35 +17,24 @@ class GraphImgController extends AbstractController
     }
 
     /**
-     * @Route("/pie.svg", name="graph_pie")
+     * @Route("/pie.svg", name="graph_pie", defaults={"_format": "svg"})
      */
     public function pie()
     {
-        return $this->setAsSvg(
-            $this->render('graph/pie.svg.twig', [
-                'data' => GraphController::FRUITS,
-                'style' => file_get_contents(__DIR__ . '/../../public/assets/pie.css'),
-            ])
-        );
+        return $this->render('graph/pie.svg.twig', [
+            'data' => GraphController::FRUITS,
+            'style' => file_get_contents(__DIR__ . '/../../public/assets/pie.css'),
+        ]);
     }
 
     /**
-     * @Route("/time.svg", name="graph_time")
+     * @Route("/histogram.svg", name="graph_histogram", defaults={"_format": "svg"})
      */
-    public function time()
+    public function histogram()
     {
-        return $this->setAsSvg(
-            $this->render('graph/time.svg.twig', [
-                'data' => GraphController::WEIGHT,
-                'style' => file_get_contents(__DIR__ . '/../../public/assets/time.css'),
-            ])
-        );
-    }
-
-    public function setAsSvg(Response $response)
-    {
-        $response->headers->set('Content-Type', 'image/svg+xml');
-
-        return $response;
+        return $this->render('graph/histogram.svg.twig', [
+            'data' => GraphController::WEIGHT,
+            'style' => file_get_contents(__DIR__ . '/../../public/assets/histogram.css'),
+        ]);
     }
 }

@@ -1,0 +1,84 @@
+{% import _self as shapes %}
+
+{% set viewWidth = 1000 %}
+{% set viewHeight = 200 %}
+{% set hMargin = 0.0 %}
+{% set vMargin = 0.2 %}
+{% set dataWidth = 0.55 %}
+{% set max = max(data.0) %}
+{% set length = data.0|length %}
+{% set columnWidth = viewWidth / length %}
+
+<svg
+  class="courbe"
+  width="{{ viewWidth * (1 + hMargin + hMargin) }}"
+  height="{{ viewHeight * (1 + vMargin + vMargin) }}"
+  viewBox="-{{ viewWidth * hMargin }} -{{ viewHeight * (1 + vMargin) }} {{ viewWidth * (1 + hMargin + hMargin) }} {{ viewHeight * (1 + vMargin + vMargin) }}"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  {% if style is defined %}
+  <style type="text/css">
+    {{ style|e('html') }}
+  </style>
+  {% endif %}
+  {{ shapes.hLine(0, hMargin) }}
+  {% for courbe in data %}
+    {% if loop.first %}
+      {% for date, value in courbe %}
+        {% set x = (loop.index0 + 0.5) * columnWidth %}
+        {{ shapes.legend(date, x, 20)  }}
+      {% endfor %}
+    {% endif %}
+    <g>
+      {{ shapes.background(courbe, columnWidth, viewHeight, length, max) }}
+      {{ shapes.line(courbe, columnWidth, viewHeight, max) }}
+      {{ shapes.points(courbe, columnWidth, viewHeight, max) }}
+    </g>
+  {% endfor %}
+</svg>
+
+{% macro background(courbe, columnWidth, viewHeight, length, max, class = 'background') %}
+  <path class="{{ class }}" d="
+    {%- for date, value in courbe -%}
+      {% set x = (loop.index0 + 0.5) * columnWidth %}
+      {% set y = - value / max * viewHeight %}
+      {% if loop.first %}
+        M {{ 0.5 * columnWidth }} 0
+      {% endif %}
+      L {{ x }} {{ y }}
+      {% if loop.last %}
+        L {{ (length - 1 + 0.5) * columnWidth }} 0 Z
+      {% endif %}
+    {%- endfor -%}
+  " />r"
+{% endmacro %}
+
+{% macro line(courbe, columnWidth, viewHeight, max, class = 'line') %}
+<path class="{{ class }}"
+  d="
+    {%- for date, value in courbe -%}
+      {% set x = (loop.index0 + 0.5) * columnWidth %}
+      {% set y = value / max * viewHeight %}
+      {{ loop.first ? 'M' : 'L' }} {{ x }} {{ -y }}
+    {%- endfor -%}
+  "
+/>
+{% endmacro %}
+
+{% macro points(courbe, columnWidth, viewHeight, max, class = 'point') %}
+  {% for value in courbe %}
+    {% set x = (loop.index0 + 0.5) * columnWidth %}
+    {% set y = - value / max * viewHeight %}
+    <circle class="{{ class }}" cx="{{ x }}" cy="{{ y }}" r="4" />
+  {% endfor %}
+{% endmacro %}
+
+{% macro legend(value, x, y, class = 'legend') %}
+  <text class="{{ class }}" x="{{ x }}" y="{{ y }}" text-anchor="middle">
+    {{ value }}
+  </text>
+{% endmacro %}
+
+{%- macro hLine(y, hMargin, class = 'axe') -%}
+  <line class="{{ class }}" x1="-{{ hMargin * 100 }}%" x2="100%" y1="{{ y }}" y2="{{ y }}" />
+{%- endmacro -%}

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Mono&display=swap');
+
+svg text {
+  font-family: 'Ubuntu', monospace;
+}
+svg.histogram .bar {
+  fill: #B5838D;
+}
+svg.histogram .axe {
+  stroke: #6D6875;
+  stroke-width: 0.6;
+}
+
+svg.histogram .legend {
+  font-size: 16px;
+  fill: #6D6875;
+}
+svg.histogram .percent {
+  fill: white;
+}
+svg.histogram .label {
+  fill: white;
+  line-height: 14px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+svg.histogram .label-box {
+  fill: #6D6875;
+}
