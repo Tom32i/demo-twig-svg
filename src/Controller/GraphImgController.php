@@ -37,4 +37,15 @@ class GraphImgController extends AbstractController
             'style' => file_get_contents(__DIR__ . '/../../public/assets/histogram.css'),
         ]);
     }
+
+    /**
+     * @Route("/curve.svg", name="graph_curve", defaults={"_format": "svg"})
+     */
+    public function curve()
+    {
+        return $this->render('graph/curve.svg.twig', [
+            'data' => GraphController::WEIGHTS,
+            'style' => file_get_contents(__DIR__ . '/../../public/assets/curve.css'),
+        ]);
+    }
 }

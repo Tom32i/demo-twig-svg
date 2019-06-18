@@ -1,0 +1,62 @@
+{% import _self as shapes %}
+
+{% set viewWidth = 1000 %}
+{% set viewHeight = 200 %}
+{% set hMargin = 0.0 %}
+{% set vMargin = 0.2 %}
+{% set length = data|length %}
+{% set columnWidth = viewWidth / length %}
+
+<svg
+  class="curve"
+  width="{{ viewWidth * (1 + hMargin + hMargin) }}"
+  height="{{ viewHeight * (1 + vMargin + vMargin) }}"
+  viewBox="-{{ viewWidth * hMargin }} -{{ viewHeight * (1 + vMargin) }} {{ viewWidth * (1 + hMargin + hMargin) }} {{ viewHeight * (1 + vMargin + vMargin) }}"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  {% if style is defined %}
+  <style type="text/css">
+    {{ style|e('html') }}
+  </style>
+  {% endif %}
+  {% for i, v in data|first %}
+    {{ shapes.curve(i, data, columnWidth, viewHeight) }}
+  {% endfor %}
+  {{ shapes.hLine(0, hMargin) }}
+  {% for date, values in data %}
+    {% set x = (loop.index0 + 0.5) * columnWidth %}
+    {% if loop.index0 is even %}
+      {{ shapes.legend(date, x, 30)  }}
+    {% endif %}
+    {{ shapes.carret(x) }}
+  {% endfor %}
+</svg>
+
+{% macro curve(i, data, columnWidth, viewHeight, class = 'curve') %}
+{% set max = max(max(data)) %}
+<path class="curve" d="{%- for date, values in data -%}
+  {% set x = (loop.index0 + 0.5) * columnWidth %}
+  {% set y = values[i] / max * viewHeight %}
+  {% if loop.first %}
+    M {{ 0.5 * columnWidth }} 0
+  {% endif %}
+  L {{ x }} {{ - y }}
+  {% if loop.last %}
+    L {{ x }} 0 Z
+  {% endif %}
+{%- endfor -%}" />
+{% endmacro %}
+
+{% macro legend(value, x, y, class = 'legend') %}
+  <text class="{{ class }}" x="{{ x }}" y="{{ y }}" text-anchor="middle">
+    {{ value }}
+  </text>
+{% endmacro %}
+
+{%- macro hLine(y, hMargin, class = 'axe') -%}
+  <line class="{{ class }}" x1="-{{ hMargin * 100 }}%" x2="100%" y1="{{ y }}" y2="{{ y }}" />
+{%- endmacro -%}
+
+{%- macro carret(x, height = 5, class = 'axe') -%}
+  <line class="{{ class }}" x1="{{ x }}" x2="{{ x }}" y1="0" y2="{{ height }}" />
+{%- endmacro -%}

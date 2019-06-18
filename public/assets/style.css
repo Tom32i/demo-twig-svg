@@ -20,7 +20,7 @@ svg {
 }
 
 svg text {
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: 'Ubuntu', monospace;
 }
 
 /* PIE */
@@ -82,36 +82,23 @@ svg.histogram g:hover .label-box  {
   opacity: 1;
 }
 
-/* COURBE */
+/* curve */
 
-svg.courbe .line {
-  stroke: #FFB4A2;
-  stroke-width: 2;
-  stroke-linejoin: round;
-  fill: none;
-}
-
-svg.courbe .point {
-  fill: #FFB4A2;
+svg.curve .curve {
   stroke: none;
+  opacity: 1;
 }
 
-svg.courbe .background {
-  fill: #FFCDB2;
-  stroke: none;
-  opacity: 0.3;
-}
+svg.curve .curve:nth-of-type(1) { fill: #FFCDB2; }
+svg.curve .curve:nth-of-type(2) { fill: #FFB4A2; }
+svg.curve .curve:nth-of-type(3) { fill: #E5989B; }
 
-svg.courbe g:nth-child(even) .line { stroke: #B5838D; }
-svg.courbe g:nth-child(even) .point { fill: #B5838D; }
-svg.courbe g:nth-child(even) .background { fill: #E5989B; }
-
-svg.courbe .axe {
+svg.curve .axe {
   stroke: #6D6875;
   stroke-width: 0.6;
 }
 
-svg.courbe .legend {
+svg.curve .legend {
   font-size: 16px;
   fill: #6D6875;
 }
