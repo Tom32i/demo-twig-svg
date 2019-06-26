@@ -6,7 +6,6 @@ svg text {
 
 svg.curve .curve {
   stroke: none;
-  opacity: 1;
 }
 
 svg.curve .curve:nth-of-type(1) { fill: #FFCDB2; }
