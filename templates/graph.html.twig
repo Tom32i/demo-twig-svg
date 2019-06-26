@@ -6,6 +6,9 @@
         {% include 'graph/pie.svg.twig' with { data: pie } %}
 
         <h2>Histogramme</h2>
-        {% include 'graph/time.svg.twig' with { data: time } %}
+        {% include 'graph/histogram.svg.twig' with { data: histogram } %}
+
+        <h2>Courbes</h2>
+        {% include 'graph/curve.svg.twig' with { data: curve } %}
     </section>
 {% endblock %}

@@ -20,7 +20,7 @@ svg {
 }
 
 svg text {
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: 'Ubuntu', monospace;
 }
 
 /* PIE */
@@ -47,24 +47,24 @@ svg.pie .label-line {
   stroke: lightgrey;
 }
 
-/* TIME*/
+/* HISTOGRAM */
 
-svg.time .bar {
+svg.histogram .bar {
   fill: #B5838D;
 }
-svg.time .axe {
+svg.histogram .axe {
   stroke: #6D6875;
   stroke-width: 0.6;
 }
 
-svg.time .legend {
+svg.histogram .legend {
   font-size: 16px;
   fill: #6D6875;
 }
-svg.time .percent {
+svg.histogram .percent {
   fill: white;
 }
-svg.time .label {
+svg.histogram .label {
   opacity: 0;
   transition: opacity 200ms ease-in-out;
   fill: white;
@@ -72,14 +72,34 @@ svg.time .label {
   font-size: 14px;
   letter-spacing: 0.1em;
 }
-svg.time .label-box {
+svg.histogram .label-box {
   opacity: 0;
   transition: opacity 200ms ease-in-out;
   fill: #6D6875;
 }
-svg.time g:hover .label,
-svg.time g:hover .label-box  {
+svg.histogram g:hover .label,
+svg.histogram g:hover .label-box  {
   opacity: 1;
+}
+
+/* curve */
+
+svg.curve .curve {
+  stroke: none;
+}
+
+svg.curve .curve:nth-of-type(1) { fill: #FFCDB2; }
+svg.curve .curve:nth-of-type(2) { fill: #FFB4A2; }
+svg.curve .curve:nth-of-type(3) { fill: #E5989B; }
+
+svg.curve .axe {
+  stroke: #6D6875;
+  stroke-width: 0.6;
+}
+
+svg.curve .legend {
+  font-size: 16px;
+  fill: #6D6875;
 }
 
 @media print {
@@ -94,8 +114,8 @@ svg.time g:hover .label-box  {
     padding: 0;
   }
 
-  svg.time .label,
-  svg.time .label-box {
+  svg.histogram .label,
+  svg.histogram .label-box {
     opacity: 1;
   }
 }
