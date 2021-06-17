@@ -26,7 +26,7 @@
     class="portion"
     d="M0,0
     L{{ start.x }},{{ start.y }}
-    A{{ radius }},{{ radius }} 1 {{ angle > pi() ? 1 : 0 }},1 {{ end.x }},{{ end.y }}
+    A{{ radius }},{{ radius }} 0 {{ angle > pi() ? 1 : 0 }},1 {{ end.x }},{{ end.y }}
     Z"
   />
 {% endmacro %}
